@@ -14,14 +14,20 @@ class PostsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn ($query) => $query->with('category'))
+            ->modifyQueryUsing(fn($query) => $query->with('category'))
             ->columns([
                 TextColumn::make('category.name')
                     ->searchable(),
                 TextColumn::make('title')
                     ->searchable(),
                 IconColumn::make('is_published')
-                    ->boolean(),
+                    ->label('Published')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
