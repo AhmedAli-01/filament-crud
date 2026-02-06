@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts\Schemas;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -27,25 +28,28 @@ class PostForm
                                 Select::make('category_id')
                                     ->relationship('category', 'name')
                                     ->required(),
+
                             ]),
                         RichEditor::make('content')
-                            ->columnSpanFull(),
-                        Toggle::make('is_published')
-                            ->label('Visible to public')
-                            ->onColor('success'),
+                            ->columnSpanFull()
+                            ->extraInputAttributes([
+                                'style' => 'min-height: 200px;',
+                            ]),
+                        Grid::make(2)
+                            ->schema([
+                                Toggle::make('is_published')
+                                    ->columnSpan(1)
+                                    ->label('Visible to public')
+                                    ->onColor('success')
+                                    ->offColor('danger')
+                                    ->inline(false),
+                                DatePicker::make('published_at')
+                                    ->columnSpan(1)
+                                    ->label('Published At')
+                                    ->native(false)
+                                    ->displayFormat('d/m/Y'),
+                            ]),
                     ])->collapsible(true),
-
-
-                // Select::make('category_id')
-                //         ->relationship('category', 'name')
-                //         ->required(),
-                //     TextInput::make('title')
-                //         ->required(),
-                //     Textarea::make('content')
-                //         ->required()
-                //         ->columnSpanFull(),
-                //     Toggle::make('is_published')
-                //         ->required(),
             ]);
     }
 }
