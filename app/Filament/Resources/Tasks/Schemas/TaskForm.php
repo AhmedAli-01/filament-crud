@@ -10,6 +10,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
+use App\Models\Project;
+use App\Models\Task;
+use Illuminate\Support\Str;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\Utilities\Get;
+
 
 
 class TaskForm
@@ -26,7 +32,16 @@ class TaskForm
                             ->schema([
                                 TextInput::make('title')
                                     ->required()
-                                    ->placeholder('What need to be done?'),
+                                    ->live(onBlur: true)
+                                    // 2. Update the type-hints here to match the imported classes
+                                    ->afterStateUpdated(function (Set $set, $state) {
+                                        $set('slug', Str::slug($state));
+                                    }),
+
+                                TextInput::make('slug')
+                                    ->required()
+                                    ->unique(ignoreRecord: true),
+
                                 Select::make('project_id')
                                     ->relationship('project', 'name')
                                     ->required()
