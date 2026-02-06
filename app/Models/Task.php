@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class Task extends Model
 {
+
+    use HasFactory;
     protected $fillable = ['project_id', 'title', 'description', 'priority', 'status'];
 
     public function project(): BelongsTo

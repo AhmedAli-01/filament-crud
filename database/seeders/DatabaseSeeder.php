@@ -20,5 +20,9 @@ class DatabaseSeeder extends Seeder
         Post::factory(50)
             ->recycle($categories) // Randomly assigns one of the 10 categories to each post
             ->create();
+        // Create 5 projects, and for each project, create 10 tasks
+        \App\Models\Project::factory(5)
+            ->hasTasks(10)
+            ->create();
     }
 }
